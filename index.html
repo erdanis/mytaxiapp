@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MyTaxiApp Dispatch System</title>
+	  
+	<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-database.js"></script>
+
+    <!-- Bootstrap -->
+	  
+	<link rel="stylesheet" type="text/css" href="Styles/mytheme.css" />
+	  
+    <link href="css/bootstrap-4.2.1.css" rel="stylesheet">
+    <link href="jQueryAssets/jquery.ui.core.min.css" rel="stylesheet" type="text/css">
+    <link href="jQueryAssets/jquery.ui.theme.min.css" rel="stylesheet" type="text/css">
+  <script src="jQueryAssets/jquery-1.11.1.min.js"></script>
+  </head>
+  <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark"><a class="navbar-brand" href="#">MyTaxiApp</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a></li>
+      <li class="nav-item"> <a class="nav-link" href="map.html">Mapa</a></li>
+      <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Dropdown </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown"> <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a></div>
+      </li>
+      <li class="nav-item"> <a class="nav-link disabled" href="#">Disabled</a></li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+  <div></div>
+</nav>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+    <div class="content">
+<div>
+      <div class="input-group input-group">
+          <div class="input-group-prepend"> <span class="input-group-text">&nbsp;Télefono:</span></div>
+          <input type="text" class="form-control" placeholder="Ingresa solo Numeros" id="ContentPlaceHolder1_txtNumber">
+    </div>
+        <div class="input-group input-group">
+          <div class="input-group-prepend"> <span class="input-group-text">Dirección:</span></div>
+          <input type="text" class="form-control" id="ContentPlaceHolder1_txtAddressName" placeholder="Nombre de la Dirección">
+          <div class="input-group-append"> </div>
+        </div>
+        <div class="input-group input-group">
+          <div class="input-group-prepend"> <span class="input-group-text">Dirección:</span></div>
+          <input type="text" class="form-control" id="txtAddress" placeholder="Dirección Completa" >
+          <div class="input-group-append"> </div>
+        </div>
+        <div class="input-group input-group">
+          <div class="input-group-prepend"> <span class="input-group-text">Comentario:</span></div>
+          <input type="text" class="form-control" id="ContentPlaceHolder1_txtAddress2" placeholder="Información Extra" >
+          <div class="input-group-append"> </div>
+        </div>
+        <div class="input-group input-group">
+          <div class="input-group-prepend"> <span class="input-group-text">Genero: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+          <select name="select2" id="ContentPlaceHolder1_generoDropDownList">
+            <option value="5">NA</option>
+            <option value="1816">1816</option>
+            <option value="1716">1716</option>
+            <option value="18H">18H</option>
+            <option value="17H">17H</option>
+          </select>
+        </div>
+        <div class="input-group input-group">
+          <div class="input-group-prepend"> <span class="input-group-text">Asig.Cab:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+          <select name="select2" id="ContentPlaceHolder1_cbNewJobsCabs">
+          </select>
+        </div>
+        <strong>
+        <button type="button" class="btn btn-lg btn-dark" id="ContentPlaceHolder1_btnSave" onclick="carreraNueva()">Guardar</button>
+        </strong>
+    <div>
+      <div class="float-left">
+		  <div style="height:10px;">
+                   
+                </div>
+<div class="pendingjobs">
+  <h2>Carreras Pendientes <img src="Images/Loading_2.gif" alt="Placeholder image" width="40" height="40" class="img-fluid rounded-circle" id="ContentPlaceHolder1_imgJobsToBeAssigned"></h2>
+  <div>
+    <table width="100%" border="1" cellpadding="0" cellspacing="0" class="table" id="ContentPlaceHolder1_gridPendingJobs" style="width:845px;border-collapse:collapse;">
+
+    </table>
+    </div>
+  </div>
+<div class="recentjobs">
+          <h2>Carreras Recientes</h2>
+          <table border="1" cellpadding="0" cellspacing="0" class="table" id="ContentPlaceHolder1_gridCompletedJobs" style="width:845px;border-collapse:collapse;">
+            <tbody>
+             <tr>
+				<th scope="col">&nbsp;</th><th scope="col">Telefono</th><th scope="col">Comentarios</th><th scope="col">Nombre Direccion</th><th scope="col">Direccion</th><th scope="col">Genero</th><th scope="col">Taxi</th><th scope="col">Estado</th><th scope="col">Creado</th><th scope="col">&nbsp;</th>
+			</tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+<div class="float-left" >
+        <div class="zone" style="width:250px;margin-left:35px">
+          <h2>Lista Taxis</h2>
+              <div>
+                <table width="100%" border="1" cellpadding="0" cellspacing="0" class="table" id="ContentPlaceHolder1_gridZone1" style="border-collapse:collapse;">
+                  <tbody>
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          <div>
+            <table width="100%" border="1" cellpadding="0" cellspacing="0" class="table" id="ContentPlaceHolder1_gridZone1InactiveDrivers" style="border-collapse:collapse;visibility:hidden;display:none">
+              <tbody>
+                <tr>
+                  <td>&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+          <span id="ContentPlaceHolder1_lblZone1Total">Total</span></div>
+</div>
+            </div>
+    </div>
+</div>
+	  </div>
+<script src="js/jquery-3.3.1.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed --> 
+    <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap-4.2.1.js"></script>
+	  
+	  <script src="myapp.js"> </script>
+
+<script>	firebase.auth().onAuthStateChanged(user => {
+  if(!user) {
+    window.location = 'login.html'; //If User is not logged in, redirect to login page
+  }
+});
+</script>
+</body>
+</html>

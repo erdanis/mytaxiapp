@@ -1,0 +1,31 @@
+.table {
+    border-right: none !important;
+    border-left: none !important;
+}
+.table td  {
+    padding:2px !important;
+    /*text-align:center  !important;*/
+    vertical-align: middle !important;
+    text-align: center !important;
+    border-right: none !important;
+    border-left: none !important;
+    font-size:12px !important;
+}
+.table_red td  {
+    padding:2px !important;
+    /*text-align:center  !important;*/
+    vertical-align: middle !important;
+    border-right: none !important;
+    border-left: none !important;
+    background-color:pink;
+}
+.table th  {
+    border-right: none !important;
+    border-left: none !important;
+    text-align: center !important;
+}
+
+tr.row_mouse_over:hover td,tr.row_mouse_over.over td
+{ 
+    background-color: #fff;
+}
